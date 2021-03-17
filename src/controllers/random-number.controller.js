@@ -1,30 +1,29 @@
-exports.randomNumber = (req, res, next) => {
+exports.primeNumbersRequest = (req, res, next) => {
 
     try {
-        let interval = 2;
-        let num = Number(req.params.number);
-        const listPimeNumbers = [];
-        
-        for(; interval < num; interval ++ ){
-            if(primeNumbers(interval)) {
-                listPimeNumbers.push(interval);
+        const numbers = Number(req.params.number);
+        const listprimes = [];
+        const arrayFunction = (new Array(numbers - 1).fill(1));
+        const maxDiv = Math.floor(Math.sqrt(numbers));
+
+        for (let i = 0; i <= maxDiv; i++) {
+            if (arrayFunction[i - 2]) {
+                for (let j = i; j <= Math.floor(numbers / i); j++) {
+                    arrayFunction[(i * j) - 2] = 0;
+                }
             }
         }
-        res.status(200).json({
-            result: listPimeNumbers.reverse(),
+        arrayFunction.forEach((value, index) => {
+            if (value) listprimes.push(index + 2);
+        });
+        res.json({
+            prime_list: listprimes.reverse(),
         })
-    }catch(e) {
+    } catch (e) {
         console.error(e);
+        res.json({
+            message: e.message
+        })
     }
-    
-}
-
-function primeNumbers(num) {
-    for (var i = 2; i < num; i ++){
-        if (num % i === 0){ 
-            return false
-        }
-    }
-    return num !== 1;
 
 }

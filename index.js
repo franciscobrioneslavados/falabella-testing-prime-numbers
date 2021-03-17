@@ -1,8 +1,11 @@
 const express = require('express');
-const {randomNumber} = require('./src/controllers/random-number.controller');
+const { primeNumbersRequest } = require('./src/controllers/random-number.controller');
 const app = express();
-const port = 5003;
+const port = 5004;
 
-
-app.get('/random-number/:number', randomNumber)
+app.get('/', (req, res) => {
+    res.send('Express ON');
+})
+app.get('/prime-numbers/:number', primeNumbersRequest)
 app.listen(port, () => console.info(`Server on PORT: ${port}`));
+module.exports = app;
